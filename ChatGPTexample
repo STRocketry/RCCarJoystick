@@ -1,0 +1,73 @@
+//En example from ChatGPT
+
+using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
+
+namespace RCCarJoystick
+{
+    public partial class Form1 : Form
+    {
+        private Dictionary<Keys, bool> keyState = new Dictionary<Keys, bool>();
+
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+
+            if (!keyState.ContainsKey(e.KeyCode))
+            {
+                keyState[e.KeyCode] = true;
+            }
+
+            UpdateCarState();
+        }
+
+        protected override void OnKeyUp(KeyEventArgs e)
+        {
+            base.OnKeyUp(e);
+
+            if (keyState.ContainsKey(e.KeyCode))
+            {
+                keyState[e.KeyCode] = false;
+            }
+
+            UpdateCarState();
+        }
+
+        private void UpdateCarState()
+        {
+            // Check the key state dictionary to determine which commands to send to the RC car
+            bool up = keyState.ContainsKey(Keys.Up) && keyState[Keys.Up];
+            bool down = keyState.ContainsKey(Keys.Down) && keyState[Keys.Down];
+            bool left = keyState.ContainsKey(Keys.Left) && keyState[Keys.Left];
+            bool right = keyState.ContainsKey(Keys.Right) && keyState[Keys.Right];
+
+            // Send commands to the RC car based on the current key state
+            if (up && !down && !left && !right)
+            {
+                // Send command to move RC car forward
+            }
+            else if (down && !up && !left && !right)
+            {
+                // Send command to move RC car backward
+            }
+            else if (left && !up && !down && !right)
+            {
+                // Send command to turn RC car left
+            }
+            else if (right && !up && !down && !left)
+            {
+                // Send command to turn RC car right
+            }
+            else
+            {
+                // Send stop command to the RC car (if applicable)
+            }
+        }
+    }
+}
